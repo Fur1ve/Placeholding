@@ -1,0 +1,41 @@
+<style>
+        .sidebar {
+            background-color: var(--sections-bg-color);
+            width: 100%;
+            padding: 20px;
+            flex-shrink: 0;
+        }
+
+        .sidebar .menu-label {
+            color: var(--subtitle-color);
+        }
+
+        .sidebar .menu-list a {
+            color: var(--text-color);
+            transition: color 0.3s ease;
+        }
+
+        .sidebar .menu-list a:hover,
+        .sidebar .menu-list a.is-active {
+            background-color: #2c313a;
+            color: var(--accent-color);
+            border-radius: 5px;
+        }
+        .sidebar .menu-list a .icon {
+            margin-right: 10px;
+        }
+</style>
+
+<div class="sidebar">
+    <aside class="menu">
+        <p class="menu-label">Staff Menu</p>
+        <ul class="menu-list">
+            <li><a href="/staff/overview" class="<%= currentPage === 'overview' ? 'is-active' : '' %>"><span class="icon"><i class="fas fa-tachometer-alt"></i></span> Overview</a></li>
+            <li><a href="/staff/products" class="<%= currentPage === 'products' ? 'is-active' : '' %>"><span class="icon"><i class="fas fa-box"></i></span> Products</a></li>
+            <li><a href="/staff/discount-codes" class="<%= currentPage === 'discount-codes' ? 'is-active' : '' %>"><span class="icon"><i class="fas fa-tags"></i></span>Discount Codes</a></li>
+            <li><a href="/staff/anti-piracy" class="<%= currentPage === 'anti-piracy' ? 'is-active' : '' %>"><span class="icon"><i class="fas fa-shield-alt"></i></span>Anti-Piracy Placeholders</a></li>
+            <li><a href="/staff/page-customization" class="<%= currentPage === 'page-customization' ? 'is-active' : '' %>"><span class="icon"><i class="fas fa-paint-brush"></i></span> Page Customization</a></li>
+            <li><a href="/staff/settings" class="<%= currentPage === 'settings' ? 'is-active' : '' %>"><span class="icon"><i class="fas fa-cogs"></i></span> Settings</a></li>
+        </ul>
+    </aside>
+</div>

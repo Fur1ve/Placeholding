@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error - <%= settings.storeName %></title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.4/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="icon" href="<%= settings.faviconPath %>" type="image/x-icon">
+    <style>
+        :root {
+            --primary-color: #0d1117;
+            --secondary-color: <%= settings.accentColor %>;
+            --accent-color: <%= settings.accentColor %>;
+            --text-color: #c9d1d9;
+            --title-color: #ffffff;
+            --subtitle-color: #8b949e;
+            --sections-bg-color: #161b22;
+            --sections-subtitle-color: #768390;
+            --footer-bg-color: #161b22;
+            --price-color: <%= settings.accentColor %>;
+            --button-error-color: #dc3545;
+            --button-error-hover-color: #c82333;
+            --border-radius: 10px;
+            --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            --padding: 20px;
+            --detail-title-color: #ffffff;
+            --detail-info-color: #dc3545;
+            --date-color: #8b949e;
+        }
+
+        html {
+            background-color: var(--primary-color);
+            color: var(--text-color);
+            font-family: 'Arial', sans-serif;
+            font-size: 16px;
+            line-height: 1.4;
+        }
+
+        .section {
+            min-height: 85vh;
+            padding-bottom: 50px;
+        }
+
+        .error-container {
+            display: flex;
+            flex-direction: column;
+            background-color: var(--sections-bg-color);
+            border-radius: var(--border-radius);
+            padding: var(--padding);
+            box-shadow: var(--box-shadow);
+            margin: auto;
+            max-width: 600px;
+            text-align: center;
+        }
+
+        .error-message h1 {
+            color: var(--button-error-color);
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+        }
+
+        .error-message p {
+            font-size: 1rem;
+            margin-bottom: 4px;
+            color: var(--text-color);
+        }
+
+        .error-message p.error-description {
+            font-size: 1rem;
+            color: var(--detail-info-color);
+            font-weight: 400;
+        }
+
+        .button-back,
+        .button-accent {
+            border: none;
+            border-radius: var(--border-radius);
+            padding: 12px 24px;
+            cursor: pointer;
+            text-align: center;
+            font-size: 1rem;
+            transition: background-color 0.4s ease, color 0.4s ease;
+            color: #fff;
+        }
+
+        .button-back {
+            background-color: var(--button-error-color);
+            margin-top: 10px;
+        }
+
+        .button-back:hover {
+            color: #fff;
+            background-color: var(--button-error-hover-color);
+        }
+
+        .button-accent {
+            background-color: var(--accent-color);
+            margin-top: 15px;
+        }
+
+        .button-accent:hover {
+            color: #fff;
+            background-color: var(--button-error-hover-color);
+        }
+    </style>
+</head>
+<body>
+
+
+    <section class="section">
+        <div class="container">
+            <div class="error-container">
+                <div class="error-message">
+                    <h1>Error</h1>
+                    <p>Something went wrong.</p>
+                    <br>
+                    <p class="error-description"><%= errorMessage %></p>
+                </div>
+                <br>
+
+                <a href="/" class="button-back">Back to Home</a>
+            </div>
+        </div>
+    </section>
+
+    <%- include('partials/footer') %>
+</body>
+</html>

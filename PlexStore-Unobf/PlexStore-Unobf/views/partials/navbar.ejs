@@ -1,0 +1,288 @@
+<style>
+    .banner {
+        background-color: var(--accent-color);
+        color: var(--primary-color);
+        padding: 10px;
+        text-align: center;
+        font-size: 1rem;
+        font-weight: bold;
+    }
+
+    ::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background-color: var(--accent-color);
+        border-radius: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background-color: var(--primary-color);
+    }
+
+    .navbar.is-dark {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 1rem;
+    }
+
+    .custom-navbar {
+        background-color: var(--primary-color);
+    }
+
+    .custom-navbar .navbar-brand {
+        display: flex;
+        align-items: center;
+    }
+
+    .custom-navbar .navbar-end .navbar-item {
+        background-color: transparent;
+        color: var(--text-color);
+        margin-right: 10px;
+        transition: color 0.3s ease;
+    }
+
+    .custom-navbar .navbar-end .navbar-item:hover {
+        color: var(--accent-color);
+    }
+
+    .navbar-menu {
+        background-color: var(--primary-color);
+    }
+
+    .navbar-menu .navbar-item {
+        color: var(--text-color);
+        padding: 10px 15px;
+        transition: background-color 0.3s ease;
+    }
+
+    .navbar-menu .navbar-item:hover {
+        color: var(--primary-color);
+    }
+
+    .navbar-burger {
+        color: var(--text-color);
+    }
+
+    .navbar-burger:hover {
+        color: var(--accent-color);
+    }
+
+    .navbar-burger.is-active {
+        color: var(--accent-color);
+    }
+
+    .navbar-logo {
+        max-width: 312px;
+        height: auto;
+    }
+
+    .avatar {
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+        margin-right: 8px;
+    }
+
+    .navbar-dropdown {
+        display: none;
+        position: absolute;
+        background-color: var(--primary-color);
+        border-radius: 6px;
+        padding: 10px 0;
+        margin-top: 5px;
+        box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+    }
+
+    .navbar-item.has-dropdown:hover .navbar-dropdown {
+        display: block;
+    }
+
+    .navbar-dropdown .navbar-item,
+    .navbar-dropdown .navbar-item:hover,
+    .navbar-dropdown .navbar-item:focus,
+    .navbar-dropdown .navbar-item:active {
+        background-color: var(--primary-color) !important;
+        color: var(--text-color) !important;
+        box-shadow: none !important;
+        outline: none !important;
+        border: none !important;
+        transition: color 0.3s ease;
+    }
+
+    .navbar-dropdown .navbar-item:hover {
+        color: var(--accent-color) !important;
+    }
+
+    .navbar-link {
+        color: var(--text-color) !important;
+        background-color: var(--primary-color) !important;
+        transition: color 0.3s ease, background-color 0.3s ease;
+    }
+
+    .navbar-link:hover {
+        color: var(--accent-color) !important;
+        background-color: var(--primary-color) !important;
+        text-decoration: none;
+    }
+
+    .navbar-item.has-dropdown .navbar-link:hover {
+        background-color: var(--primary-color) !important;
+        color: var(--accent-color) !important;
+    }
+
+    .navbar-dropdown .navbar-item:focus {
+        outline: none;
+    }
+
+    .navbar-dropdown .navbar-item .icon {
+        margin-right: 8px;
+    }
+
+    .navbar-item.has-dropdown {
+        position: relative;
+    }
+
+    .navbar-end {
+        position: relative;
+    }
+
+    .navbar-menu .navbar-dropdown {
+        background-color: var(--primary-color);
+        border-radius: 6px;
+        padding: 10px 0;
+        margin-top: -2px;
+    }
+
+    .cart-container {
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
+
+    .cart-icon {
+        color: var(--text-color);
+        font-size: 1.5rem;
+        transition: color 0.3s ease;
+    }
+
+    .cart-icon:hover {
+        color: var(--accent-color);
+    }
+
+    .cart-badge {
+        background-color: var(--accent-color);
+        color: var(--primary-color);
+        border-radius: 50%;
+        padding: 2.5px 8px;
+        opacity: 90%;
+        font-size: 0.75rem;
+        font-weight: bold;
+        margin-left: -10px;
+    }
+
+</style>
+
+<% if (settings?.siteBannerText && settings?.siteBannerText.length > 2) { %>
+    <div class="banner">
+        <%= settings.siteBannerText %>
+    </div>
+    <% } %>
+
+<nav class="navbar custom-navbar">
+    <div class="navbar-brand">
+        <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarMenu">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+    </div>
+
+    <div id="navbarMenu" class="navbar-menu">
+        <div class="navbar-end">
+            <a class="navbar-item" href="/">Home</a>
+            <a class="navbar-item" href="/products">Products</a>
+            <a class="navbar-item" href="/reviews">Reviews</a>
+
+            <% if (settings.customNavTabs && settings.customNavTabs.length > 0) { %>
+                <% settings.customNavTabs.forEach(function(tab) { %>
+                    <a class="navbar-item" href="<%= tab.link %>"><%= tab.name %></a>
+                <% }); %>
+            <% } %>
+
+            <% if (user) { %>
+
+
+                <div class="navbar-item cart-container">
+                    <a href="/cart" class="cart-icon">
+                        <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-badge"><%= existingUser && existingUser?.cart ? existingUser.cart.length : 0 %></span>
+                </a>
+                </div>
+
+                <div class="navbar-item has-dropdown is-hoverable">
+                    <a class="navbar-link" style="color: var(--text-color);">
+                        <% if (user.avatar) { %>
+                            <img src="https://cdn.discordapp.com/avatars/<%= user.id %>/<%= user.avatar %>.webp?size=240" alt="Avatar" class="avatar">
+                        <% } else { %>
+                            <span class="icon">
+                                <i class="fas fa-user-circle"></i>
+                            </span>
+                        <% } %>
+                        Logged in as <%= user.username %>
+                    </a>
+
+                    <div class="navbar-dropdown">
+                        <a class="navbar-item" href="/profile/<%= user.id %>">
+                            <span class="icon">
+                                <i class="fas fa-user"></i>
+                            </span>
+                            Profile
+                        </a>
+                        <% if (isStaff) { %>
+                            <a class="navbar-item" href="/staff/overview">
+                                <span class="icon">
+                                    <i class="fas fa-cogs"></i>
+                                </span>
+                                Staff Panel
+                            </a>
+                            <% } %>
+                        <a class="navbar-item" href="/logout">
+                            <span class="icon">
+                                <i class="fas fa-sign-out-alt"></i>
+                            </span>
+                            Logout
+                        </a>
+                    </div>
+                </div>
+            <% } else { %>
+                <a class="navbar-item" href="/login" data-page="login">
+                    <span class="icon">
+                        <i class="fas fa-sign-in-alt"></i>
+                    </span>
+                    <span>Login</span>
+                </a>
+            <% } %>
+
+        </div>
+    </div>
+</nav>
+    
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+        if (navbarBurgers.length > 0) {
+            navbarBurgers.forEach(el => {
+                el.addEventListener('click', () => {
+                    const target = el.dataset.target;
+                    const $target = document.getElementById(target);
+                    el.classList.toggle('is-active');
+                    $target.classList.toggle('is-active');
+                });
+            });
+        }
+    });
+</script>

@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= settings.seoTitle %></title>
+    <meta name="description" content="<%= settings.seoDescription %>">
+    <meta name="keywords" content="<%= settings.seoTags %>">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.4/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="icon" href="<%= settings.faviconPath %>" type="image/x-icon">
+
+    <meta property="og:title" content="<%= settings.seoTitle %>" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="<%= settings.baseURL %>" />
+    <meta property="og:image" content="<%= settings.logoPath %>" />
+    <meta property="og:description" content="<%= settings.seoDescription %>" />
+    <meta name="theme-color" content="<%= settings.accentColor %>">
+    <meta property="og:site_name" content="<%= settings.storeName %>" />
+    <meta property="og:locale" content="en_US" />
+
+    <style>
+        :root {
+            --primary-color: #0d1117;
+            --secondary-color: <%= settings.accentColor %>;
+            --accent-color: <%= settings.accentColor %>;
+            --text-color: #c9d1d9;
+            --title-color: #ffffff;
+            --subtitle-color: #8b949e;
+            --sections-bg-color: #161b22;
+            --sections-subtitle-color: #768390;
+            --footer-bg-color: #161b22;
+            --button-discord-color: #7289da;
+        }
+
+        html {
+            background-color: var(--primary-color);
+            color: var(--text-color);
+        }
+
+        .hero.is-medium {
+            position: relative;
+            background: url('<%= settings.backgroundImagePath %>') no-repeat center center fixed;
+            background-size: cover;
+            z-index: 1;
+            min-height: 80vh;
+        }
+
+        .hero-body {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: url('<%= settings.backgroundImagePath %>') no-repeat center center fixed;
+    background-size: cover;
+    z-index: 1;
+    padding: 40px 20px;
+}
+
+        .hero.is-medium {
+            min-height: 75vh;
+        }
+
+        .hero-body::before {
+            content: '';
+            min-height: 40vh;
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: -1;
+            filter: blur(3px);
+        }
+
+        .hero-logo {
+    width: 212px;
+    height: auto;
+    margin-top: -50px;
+    margin-bottom: 20px;
+}
+
+        .title.is-spaced {
+            color: var(--title-color);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .subtitle {
+            color: var(--subtitle-color);
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.5;
+        }
+
+        .button.is-info {
+            background-color: var(--secondary-color);
+            border-color: var(--secondary-color);
+        }
+
+        .button.is-info:hover {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+        }
+
+        .button.is-server-ip {
+            background-color: transparent;
+            border: 2px solid var(--accent-color);
+            color: var(--accent-color);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .button.is-server-ip:hover {
+            background-color: var(--accent-color);
+            color: var(--primary-color);
+        }
+
+        .button.is-discord {
+            background-color: transparent;
+            border: 2px solid var(--button-discord-color);
+            color: var(--button-discord-color);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .button.is-discord:hover {
+            background-color: var(--button-discord-color);
+            color: var(--primary-color);
+        }
+
+        .button.is-store {
+            background-color: transparent;
+            border: 2px solid var(--text-color);
+            color: var(--text-color);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .button.is-store:hover {
+            background-color: var(--text-color);
+            color: var(--primary-color);
+        }
+
+        .section-title {
+            color: var(--title-color);
+            position: relative;
+        }
+
+        .section-title-underline::after {
+            content: '';
+            display: block;
+            width: 50px;
+            height: 4px;
+            background-color: var(--accent-color);
+            margin: 10px auto 0;
+        }
+
+        #features-overview .title {
+            color: var(--title-color);
+        }
+
+        .feature-card {
+            background-color: var(--sections-bg-color);
+            color: var(--text-color);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .feature-card .icon {
+            color: var(--accent-color);
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .feature-subtitle {
+            color: var(--text-color);
+        }
+
+        #reviews .title {
+    color: var(--title-color);
+}
+
+.review-box {
+    background-color: var(--sections-bg-color);
+    color: var(--text-color);
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    border-radius: 10px;
+    padding: 20px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.review-box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.review-box .icon {
+    color: var(--accent-color);
+    margin-bottom: 10px;
+}
+
+.review-box .content {
+    color: var(--text-color);
+    flex-grow: 1;
+}
+
+.review-box .rating {
+    color: var(--accent-color);
+}
+
+.review-box .media-left {
+    margin-right: 15px;
+}
+
+.media-left .image img {
+    border-radius: 50%;
+    width: 64px;
+    height: 64px;
+    object-fit: cover;
+}
+
+.review-box .media-content {
+    overflow: hidden;
+}
+
+.has-text-accent {
+    color: var(--accent-color);
+}
+
+.has-text-sections-subtitle {
+    color: var(--sections-subtitle-color);
+}
+
+.has-text-title {
+    color: var(--title-color);
+}
+
+#about-us .title {
+    color: var(--title-color);
+}
+
+        .circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--accent-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .arrow {
+            font-size: 24px;
+            color: var(--accent-color);
+        }
+
+        .fade-in {
+            opacity: 0;
+            animation: fadeIn 1s forwards;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+        #statistics .circle {
+    width: 60px;
+    height: 60px;
+    margin: 0 auto 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--accent-color);
+    border-radius: 50%;
+    transition: transform 0.3s ease;
+}
+
+#statistics .circle .icon {
+    font-size: 1rem;
+    color: var(--primary-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#statistics .circle:hover {
+    transform: translateY(-5px);
+}
+
+#statistics .title.is-4 {
+    margin-top: 10px;
+    margin-bottom: 25px;
+    font-size: 1.2rem;
+}
+
+#statistics .subtitle {
+    margin-bottom: 0;
+    font-size: 1rem;
+}
+
+
+.markdown-body {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: var(--text-color);
+        }
+
+        .markdown-body h1 {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--title-color);
+            margin-bottom: 1rem;
+        }
+
+        .markdown-body h2 {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--title-color);
+            margin-bottom: 1rem;
+        }
+
+        .markdown-body h3 {
+            font-size: 1.75rem;
+            font-weight: bold;
+            color: var(--title-color);
+            margin-bottom: 1rem;
+        }
+
+        .markdown-body h4 {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--title-color);
+            margin-bottom: 1rem;
+        }
+
+        .markdown-body p {
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            color: var (--text-color);
+        }
+
+        .markdown-body a {
+            color: var(--accent-color);
+            text-decoration: none;
+        }
+
+        .markdown-body a:hover {
+            text-decoration: underline;
+        }
+
+        .markdown-body ul, .markdown-body ol {
+            padding-left: 20px;
+            margin-bottom: 1rem;
+            list-style-type: disc;
+        }
+        .markdown-body strong, .markdown-body b {
+            font-weight: bold;
+            color: var(--accent-color);
+        }
+
+        .markdown-body code {
+            background-color: #161b22;
+            padding: 2px 4px;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+
+        .markdown-body pre {
+            background-color: #161b22;
+            padding: 10px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin-bottom: 1rem;
+        }
+
+        .markdown-body blockquote {
+            padding: 10px 20px;
+            margin: 0 0 20px;
+            background-color: #161b22;
+            border-left: 5px solid var(--accent-color);
+        }
+
+        .markdown-body table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1rem;
+        }
+
+        .markdown-body th, .markdown-body td {
+            padding: 10px;
+            border: 1px solid #c9d1d9;
+        }
+
+        .markdown-body th {
+            background-color: #161b22;
+        }
+
+        .markdown-body td {
+            background-color: var(--primary-color);
+        }
+
+        .markdown-body .info, .markdown-body .success, .markdown-body .warning, .markdown-body .danger {
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            color: #fff;
+        }
+
+        .markdown-body .info {
+            background-color: #017acd;
+        }
+
+        .markdown-body .success {
+            background-color: #28a745;
+        }
+
+        .markdown-body .warning {
+            background-color: #d39e00;
+        }
+
+        .markdown-body .danger {
+            background-color: #dc3545;
+        }
+
+    </style>
+
+</head>
+<body>
+    <%- include('partials/navbar', { user, existingUser }) %>
+
+    <section class="hero is-medium is-fullheight-with-navbar">
+        <div class="hero-body">
+            <div class="container has-text-centered flex-center">
+                <div class="content-wrapper">
+                    <img src="<%= settings.logoPath %>" alt="Logo" class="hero-logo">
+                    <h1 class="title is-spaced">
+                        <%= settings.homePageTitle %></span>
+                    </h1>
+                    <h2 class="subtitle">
+                        <%= settings.homePageSubtitle %>
+                    </h2>
+                    <div class="buttons is-centered">
+                        <a class="button is-large is-store" href="/products">
+                            <span class="icon"><i class="fas fa-shopping-cart"></i></span>
+                            <span>Store</span>
+                        </a>
+                        <a class="button is-large is-discord" href="<%= settings.discordInviteLink %>" target="_blank">
+                            <span class="icon"><i class="fab fa-discord"></i></span>
+                            <span>Join Our Discord</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <% if (settings.displayFeatures) { %>
+    <section id="features-overview" class="section">
+        <div class="container">
+            <h3 class="title has-text-centered section-title-underline">Why choose our products</h3>
+            <div class="columns is-multiline">
+                <% settings.features.forEach(function(feature) { %>
+                <div class="column is-one-third">
+                    <div class="card feature-card">
+                        <div class="card-content has-text-centered">
+                            <span class="icon is-large">
+                                <i class="<%= feature.icon %>"></i>
+                            </span>
+                            <p class="title is-4"><%= feature.title %></p>
+                            <p class="feature-subtitle"><%= feature.description %></p>
+                        </div>
+                    </div>
+                </div>
+                <% }); %>
+            </div>
+        </div>
+    </section>
+    <% } %>
+    
+    
+
+        <section id="reviews" class="section">
+            <div class="container">
+                <h3 class="title has-text-centered section-title-underline">Customer Reviews</h3>
+                <div class="has-text-centered mb-5">
+                    <p class="has-text-sections-subtitle">
+                        Over <span class='has-text-accent'><%= totalUsers.toLocaleString('en-US') %>+</span> users trust us to deliver top-quality products.
+                    </p>
+                </div>
+                <% if (reviews.length === 0) { %>
+                    <p class="has-text-centered">No reviews found.</p>
+                <% } else { %>
+                    <div class="columns is-multiline">
+                        <% reviews.forEach(review => { %>
+                        <div class="column is-one-third">
+                            <div class="box review-box">
+                                <article class="media">
+                                    <div class="media-left">
+                                        <figure class="image is-64x64">
+                                            <img src="<%= review.discordAvatar %>" alt="<%= review.discordUsername %>'s Avatar">
+                                        </figure>
+                                    </div>
+                                    <div class="media-content">
+                                        <div class="content">
+                                            <p>
+                                                <strong class="has-text-title"><%= review.discordUsername %></strong>
+                                                <br>
+                                                <span class="rating">
+                                                    <% for (let i = 0; i < review.rating; i++) { %>
+                                                        <i class="fas fa-star"></i>
+                                                    <% } %>
+                                                    <% for (let i = review.rating; i < 5; i++) { %>
+                                                        <i class="far fa-star"></i>
+                                                    <% } %>
+                                                </span>
+                                                <br>
+                                                "<%= review.comment %>"
+                                            </p>
+                                        </div>
+                                    </div>
+                                </article>
+                            </div>
+                        </div>
+                        <% }) %>
+                    </div>
+                <% } %>
+            </div>
+        </section>
+    
+
+    <% if (settings.aboutUsVisible && settings.aboutUsText && settings.aboutUsText.trim()) { %>
+    <section id="about-us" class="section">
+        <div class="container">
+            <h3 class="title has-text-centered section-title-underline">About Us</h3>
+            <div class="columns is-centered">
+                <div class="column is-half">
+                    <div class="markdown-body">
+                    <p class="subtitle">
+                        <%- md.render(settings.aboutUsText) %>
+                    </p>
+                </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <% } %>
+
+
+    <% if (settings.displayStats && stats) { %>
+        <section id="statistics" class="section">
+            <div class="container">
+                <div class="columns is-multiline is-centered has-text-centered">
+                    <div class="column is-one-third">
+                        <div class="circle">
+                            <span class="icon is-large"><i class="fas fa-shopping-cart fa-2x"></i></span>
+                        </div>
+                        <p class="title is-4 has-text-title"><%= stats.totalPurchases.toLocaleString('en-US') %></p>
+                        <p class="subtitle has-text-sections-subtitle">Total Purchases</p>
+                    </div>
+                    <div class="column is-one-third">
+                        <div class="circle">
+                            <span class="icon is-large"><i class="fas fa-box-open fa-2x"></i></span>
+                        </div>
+                        <p class="title is-4 has-text-title"><%= totalProducts.toLocaleString('en-US') %></p>
+                        <p class="subtitle has-text-sections-subtitle">Total Products</p>
+                    </div>
+                    <div class="column is-one-third">
+                        <div class="circle">
+                            <span class="icon is-large"><i class="fas fa-chart-line fa-2x"></i></span>
+                        </div>
+                        <p class="title is-4 has-text-title"><%= thisMonthStats.totalSiteVisits.toLocaleString('en-US') %></p>
+                        <p class="subtitle has-text-sections-subtitle">Visits this month</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <% } %>
+
+    <section id="cta-banner" class="section" style="background-color: var(--sections-bg-color);">
+        <div class="container has-text-centered">
+            <h2 class="title is-3 has-text-title">
+                Ready to Elevate Your Experience?
+            </h2>
+            <p class="subtitle has-text-sections-subtitle">
+                Discover the perfect products for your needs. Explore our products today and take your first step towards excellence!
+            </p>
+            <div class="buttons is-centered mt-5">
+                <a class="button is-large is-store" href="/products">
+                    <span class="icon"><i class="fas fa-shopping-cart"></i></span>
+                    <span>View our products</span>
+                </a>
+            </div>
+        </div>
+    </section>
+    
+    <%- include('partials/footer') %>
+
+</body>
+</html>

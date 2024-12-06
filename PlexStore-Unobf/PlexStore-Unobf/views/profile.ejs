@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= fullUser.username %>'s profile - <%= settings.storeName %></title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.4/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="icon" href="<%= settings.faviconPath %>" type="image/x-icon">
+
+    <meta property="og:title" content="<%= fullUser.username %>'s | <%= settings.storeName %>" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="<%= settings.baseURL %>" />
+    <meta property="og:image" content="<%= settings.logoPath %>" />
+    <meta property="og:description" content="View your owned products, and manage preferences from your user profile." />
+    <meta name="theme-color" content="<%= settings.accentColor %>">
+    <meta property="og:site_name" content="<%= settings.storeName %>" />
+    <meta property="og:locale" content="en_US" />
+
+    <style>
+        :root {
+            --primary-color: #0d1117;
+            --secondary-color: <%= settings.accentColor %>;
+            --accent-color: <%= settings.accentColor %>;
+            --text-color: #c9d1d9;
+            --title-color: #ffffff;
+            --subtitle-color: #8b949e;
+            --sections-bg-color: #161b22;
+            --sections-subtitle-color: #768390;
+            --footer-bg-color: #161b22;
+            --border-radius: 10px;
+            --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            --padding: 20px;
+            --detail-title-color: #ffffff;
+            --detail-info-color: <%= settings.accentColor %>;
+            --date-color: #8b949e;
+            --avatar-size: 100px;
+        }
+
+        html {
+            background-color: var(--primary-color);
+            color: var(--text-color);
+            font-family: 'Arial', sans-serif;
+            font-size: 16px;
+            line-height: 1.4;
+        }
+
+        .section {
+            min-height: 80vh;
+            padding-bottom: 50px;
+        }
+
+        .profile-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: var(--sections-bg-color);
+            border-radius: var(--border-radius);
+            padding: var(--padding);
+            box-shadow: var(--box-shadow);
+            margin: auto;
+            max-width: 600px;
+            text-align: center;
+        }
+
+        .profile-avatar {
+            width: var(--avatar-size);
+            height: var(--avatar-size);
+            border-radius: 50%;
+            margin-bottom: 15px;
+            box-shadow: var(--box-shadow);
+        }
+
+        .profile-details {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .profile-details h1 {
+            color: var(--detail-title-color);
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+        }
+
+        .profile-details p {
+            font-size: 1rem;
+            color: var(--text-color);
+            margin-bottom: 4px;
+        }
+
+        .profile-details p.user-info {
+            font-size: 1rem;
+            color: var(--detail-info-color);
+            font-weight: 600;
+        }
+
+        .profile-details p strong {
+            color: var(--detail-title-color);
+        }
+
+        .owned-products {
+            width: 100%;
+            padding: 0 10px;
+        }
+
+        .owned-products h2 {
+            color: var(--title-color);
+            font-size: 1.5rem;
+            margin-bottom: 12px;
+        }
+
+        .owned-products .product-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--sections-subtitle-color);
+            flex-wrap: wrap;
+        }
+
+        .owned-products .product-item-title {
+            color: var(--text-color);
+            font-weight: bold;
+            font-size: 1rem;
+            text-align: left;
+            flex-grow: 1;
+            margin-bottom: 10px;
+        }
+
+        .owned-products .product-item-actions {
+            display: flex;
+            gap: 10px;
+            margin-left: auto;
+        }
+
+        .button.is-small {
+            font-size: 0.875rem;
+            padding: 5px 10px;
+            border-radius: var(--border-radius);
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+
+        .button.is-link {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+
+        .button.is-link:hover,
+        .button.is-link:focus {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+        }
+
+        .button.is-danger {
+            background-color: #ff4d4d;
+            border-color: #ff4d4d;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+
+        .button.is-danger:hover {
+            background-color: #e64444;
+            border-color: #e64444;
+        }
+
+        .owned-products p.no-products {
+            color: var(--subtitle-color);
+        }
+
+        .staff-actions {
+            margin-top: 30px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .staff-actions .dropdown-container {
+            margin: 0 auto 10px auto;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+        }
+
+        .staff-actions .dropdown-container .field {
+            width: 100%;
+            max-width: 300px;
+            display: flex;
+        }
+
+        .staff-actions .buttons {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .staff-actions .buttons form {
+            flex-grow: 1;
+        }
+
+        .staff-actions .buttons form .control {
+            width: 100%;
+        }
+
+        .staff-actions .buttons .button,
+        .staff-actions .buttons .select {
+            width: 100%;
+        }
+
+        .staff-actions .select select {
+            width: 100%;
+            max-width: 200px;
+        }
+
+        .email-blur {
+    filter: blur(5px);
+    transition: filter 0.3s ease;
+    cursor: pointer;
+}
+
+.email-blur:hover {
+    filter: none;
+}
+
+    </style>
+</head>
+
+<body>
+    <%- include('partials/navbar', { user, existingUser }) %>
+
+    <section class="section">
+        <div class="container">
+            <div class="profile-container">
+                <img src="https://cdn.discordapp.com/avatars/<%= userInfo.discordID %>/<%= fullUser.avatar %>.png" alt="User Avatar" class="profile-avatar">
+                
+                <div class="profile-details">
+                    <h1><%= fullUser.username %></h1>
+                    <p class="user-info"><strong>User ID:</strong> <%= userInfo.discordID %></p>
+                    <p class="user-info"><strong>Email:</strong> <span class="email-blur"><%= userInfo.email %></span></p>
+                    <p class="user-info"><strong>Join Date:</strong> <%= userInfo.joinedAt.toLocaleString('en-US', {
+                        year: 'numeric',
+                        month: 'short',
+                        day: 'numeric',
+                    }) %></p>
+                    <p class="user-info"><strong>Total Spent:</strong> <%= settings.currencySymbol %><%= userInfo.totalSpent.toLocaleString('en-US') %></p>
+                </div>
+                <br>
+
+                <div class="owned-products">
+                    <h2>Owned Products (<%= ownedProducts.length %>)</h2>
+                    <% if (ownedProducts.length > 0) { %>
+                        <% ownedProducts.forEach(product => { %>
+                            <div class="product-item">
+                                <div class="product-item-title"><%= product.name %></div>
+                                <div class="product-item-actions">
+                                    <a href="/downloads/<%= product.urlId %>" class="button is-link is-small">
+                                        <i class="fas fa-download"></i>&nbsp;Download
+                                    </a>
+                                    <% if (isStaff) { %>
+                                    <form action="/profile/<%= userInfo.discordID %>/delete/<%= product._id %>" method="POST" style="display:inline;">
+                                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                        <button type="submit" class="button is-danger is-small" onclick="return confirm('Are you sure you want to delete this product from the user?');">
+                                            <i class="fas fa-trash-alt"></i>&nbsp;Delete
+                                        </button>
+                                    </form>
+                                    <% } %>
+                                </div>
+                            </div>
+                        <% }) %>
+                    <% } else { %>
+                        <p class="no-products">You do not own any products yet.</p>
+                    <% } %>
+                </div>
+
+                <% if (isStaff) { %>
+                    <div class="staff-actions">
+                        <h2 class="title is-4" style="color: var(--title-color);">Staff Actions</h2>
+                        
+                        <div class="dropdown-container">
+                            <form action="/profile/<%= userInfo.discordID %>/add-product" method="POST">
+                                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                <div class="field has-addons">
+                                    <div class="control">
+                                        <div class="select is-fullwidth">
+                                            <select name="productId">
+                                                <% products.forEach(product => { %>
+                                                    <option value="<%= product._id %>"><%= product.name %></option>
+                                                <% }) %>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="control">
+                                        <button type="submit" class="button is-link is-fullwidth">
+                                            <i class="fas fa-plus"></i>&nbsp;Add Product
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    
+                        <div class="buttons">
+                            <form action="/profile/<%= userInfo.discordID %>/ban" method="POST">
+                                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                <% if (userInfo.banned) { %>
+                                    <button type="submit" class="button is-danger" <% if (user.id === userInfo.discordID) { %>disabled<% } %>>
+                                        <i class="fas fa-ban"></i>&nbsp;Unban User
+                                    </button>
+                                <% } else { %>
+                                    <button type="submit" class="button is-danger" <% if (user.id === userInfo.discordID) { %>disabled<% } %>>
+                                        <i class="fas fa-ban"></i>&nbsp;Ban User
+                                    </button>
+                                <% } %>
+                            </form>
+                        </div>
+                    </div>
+                    <% } %>
+
+            </div>
+        </div>
+    </section>
+
+    <%- include('partials/footer') %>
+</body>
+
+</html>

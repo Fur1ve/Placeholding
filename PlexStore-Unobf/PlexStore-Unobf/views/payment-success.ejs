@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Successful - <%= settings.storeName %></title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.4/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="icon" href="<%= settings.faviconPath %>" type="image/x-icon">
+    <style>
+        :root {
+            --primary-color: #0d1117;
+            --secondary-color: <%= settings.accentColor %>;
+            --accent-color: <%= settings.accentColor %>;
+            --text-color: #c9d1d9;
+            --title-color: #ffffff;
+            --subtitle-color: #8b949e;
+            --sections-bg-color: #161b22;
+            --sections-subtitle-color: #768390;
+            --footer-bg-color: #161b22;
+            --price-color: <%= settings.accentColor %>;
+            --button-success-color: #28a745;
+            --button-success-hover-color: #218838;
+            --button-accent-hover-color: <%= settings.accentColor %>;
+            --border-radius: 10px;
+            --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            --padding: 20px;
+            --detail-title-color: #ffffff;
+            --detail-info-color: <%= settings.accentColor %>;
+            --discount-color: #28a745;
+            --date-color: #8b949e;
+        }
+
+        html {
+            background-color: var(--primary-color);
+            color: var(--text-color);
+            font-family: 'Arial', sans-serif;
+            font-size: 16px;
+            line-height: 1.4;
+        }
+
+        .section {
+            min-height: 80vh;
+            padding-bottom: 50px;
+        }
+
+        .success-container {
+            display: flex;
+            flex-direction: column;
+            background-color: var(--sections-bg-color);
+            border-radius: var(--border-radius);
+            padding: var(--padding);
+            box-shadow: var(--box-shadow);
+            margin: auto;
+            max-width: 600px;
+            text-align: center;
+        }
+
+        .success-message h1 {
+            color: var(--button-success-color);
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+        }
+
+        .success-message p {
+            font-size: 1rem;
+            margin-bottom: 4px;
+            color: var(--text-color);
+        }
+
+        .success-message p.transaction-id,
+        .success-message p.user-info {
+            font-size: 1rem;
+            color: var(--detail-info-color);
+            font-weight: 600;
+        }
+
+        .success-message p strong {
+            color: var(--detail-title-color);
+        }
+
+        .order-details h2 {
+            color: var(--title-color);
+            font-size: 1.5rem;
+            margin-bottom: 12px;
+        }
+
+        .order-details .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--sections-subtitle-color);
+        }
+
+        .order-details .cart-item img {
+            width: 80px;
+            height: auto;
+            border-radius: var(--border-radius);
+        }
+
+        .order-details .cart-item-details {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 60%;
+            margin-left: 15px;
+            text-align: left;
+        }
+
+        .order-details .cart-item-title {
+            color: var(--text-color);
+            font-weight: bold;
+            font-size: 1rem;
+            margin-bottom: 4px;
+        }
+
+        .order-details .cart-item-price {
+            color: var(--price-color);
+            font-size: 1rem;
+            font-weight: bold;
+        }
+
+        .discount-info {
+            color: var(--discount-color);
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+
+        .total-price {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: var(--price-color);
+            margin-top: 15px;
+        }
+
+        .payment-date {
+            color: var(--date-color);
+            font-size: 0.9rem;
+            margin-top: 10px;
+            font-style: italic;
+        }
+
+        .button-back,
+        .button-accent {
+            border: none;
+            border-radius: var(--border-radius);
+            padding: 12px 24px;
+            cursor: pointer;
+            text-align: center;
+            font-size: 1rem;
+            transition: background-color 0.4s ease, color 0.4s ease;
+            color: #fff;
+        }
+
+        .button-back {
+            background-color: var(--button-success-color);
+            margin-top: 10px;
+        }
+
+        .button-back:hover {
+            color: #fff;
+            background-color: var(--button-success-hover-color);
+        }
+
+        .button-accent {
+            background-color: var(--accent-color);
+            margin-top: 15px;
+        }
+
+        .button-accent:hover {
+            color: #fff;
+            background-color: var(--button-accent-hover-color);
+        }
+    </style>
+</head>
+<body>
+    <%- include('partials/navbar', { user, existingUser }) %>
+
+    <section class="section">
+        <div class="container">
+            <div class="success-container">
+                <div class="success-message">
+                    <h1>Payment Successful</h1>
+                    <p>Thank you for your purchase! Your transaction has been successfully processed.</p>
+                    <br>
+                    <p class="transaction-id"><strong>Transaction ID:</strong> <%= transactionId %></p>
+                    <p class="user-info"><strong>User ID:</strong> <%= user.id %></p>
+                    <p class="user-info"><strong>Username:</strong> <%= user.username %></p>
+                    <p class="user-info"><strong>Email:</strong> <%= email %></p>
+                </div>
+                <br>
+
+                <div class="order-details">
+                    <h2>Order Details</h2>
+                    <% cartProducts.forEach(product => { %>
+                    <div class="cart-item">
+                        <div class="cart-item-details">
+                            <div class="cart-item-title"><%= product.name %></div>
+                            <div class="cart-item-price"><%= settings.currencySymbol %><%= product.price.toFixed(2) %></div>
+                        </div>
+                    </div>
+                    <% }) %>
+                    
+                    <% if (discountCode) { %>
+                    <div class="discount-info">
+                        Discount Applied: <%= discountCode %> (<%= discountPercentage %>% off)
+                    </div>
+                    <% } %>
+                    
+                    <% if (salesTaxAmount > 0) { %>
+                    <div class="discount-info">
+                        Sales Tax: <%= settings.currencySymbol %><%= salesTaxAmount.toFixed(2) %>
+                    </div>
+                    <% } %>
+
+                    <div class="total-price">Total Paid: <%= settings.currencySymbol %><%= totalPrice.toFixed(2) %></div>
+
+                    <div class="payment-date"><%= payment.createdAt.toLocaleString('en-US', {
+                        year: 'numeric',
+                        month: 'short',
+                        day: 'numeric',
+                        hour: 'numeric',
+                        minute: 'numeric',
+                        hour12: true,
+                        timeZoneName: 'short'
+                    }); %></div>
+                </div>
+
+                <a href="/profile/<%= user.id %>" class="button-accent">Go to Products</a>
+                <a href="/" class="button-back">Back to Home</a>
+            </div>
+        </div>
+    </section>
+
+    <%- include('partials/footer') %>
+</body>
+</html>

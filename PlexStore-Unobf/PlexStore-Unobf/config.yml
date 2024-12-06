@@ -1,0 +1,70 @@
+# ===========================================================================
+# Plex Store Configuration
+# If you find any issues, need support, or have a suggestion for the product, let us know in our Discord server.
+# Discord: https://discord.gg/plexdev
+# Documentation: https://docs.plexdevelopment.net/6768
+# ===========================================================================
+MongoURI: "CONNECTION_URL"
+DebugMode: false
+
+
+# NOTE: Permission system is coming soon.
+OwnerID: ["USER_ID", "USER_ID"] # The Discord User ID's that will have full access to the store, you can add multiple
+
+# ===========================================================================
+# DISCORD BOT
+# You must not leave them as blank!
+# ===========================================================================
+# The discord bot is mostly used for store logs, automatically giving roles, and automatically adding users to the server when they login
+
+Token: "BOT_TOKEN" # If you don't know how to get it, Look at our docs: https://docs.plexdevelopment.net
+GuildID: "GUILD_ID" # This is your discord server's ID, Right click on your server icon and copy ID
+autoJoinUsers: false # Should users automatically get added to your Discord server when they login?
+# ===========================================================================
+# DISCORD OAUTH2
+# You must not leave them as blank!
+# ===========================================================================
+# Discord OAuth2 credentials, get these from the Discord Developer Portal: https://discord.com/developers/applications
+# Note: MAKE SURE TO REPLACE LOCALHOST:3000 WITH THE DOMAIN OR IP YOU ACCESS THE WEBSITE WITH!
+clientID: "CLIENT_ID"
+clientSecret: "CLIENT_SECRET"
+callbackURL: "http://localhost:3000/auth/discord/callback" # Create a Redirect URL in the Developer Portal and set it to this callback URL
+
+secretKey: "uNLmkcss213asGY31k8s0mj" # This can be anything, We recommend using this https://www.dashlane.com/features/password-generator with at least 20 characters, (7532)
+
+Secure: false # Enable if you are using HTTPS
+trustProxy: false # Enable If your application is behind a reverse proxy (like Cloudflare, Nginx, etc.)
+SessionExpires: "7d" # How long should a session be valid
+
+# ===========================================================================
+# WEBSERVER
+# You must not leave them as blank!
+# ===========================================================================
+baseURL: "http://localhost:3000" # The exact URL you use to access the website, No trailing slashes
+Port: 3000 # The port you want the webserver to be ran on
+
+Payments:
+  PayPal: # REQUIRES BUSINESS ACCOUNT!
+    Enabled: true # Enable paypal payments?
+    clientID: "CLIENT_ID" # PayPal Live API Client ID
+    clientSecret: "CLIENT_SECRET" # PayPal Live API Secret Key
+
+  Stripe:
+    Enabled: true # Enable stripe payments?
+    secretKey: "SECRET_KEY"
+
+  Coinbase:
+    Enabled: true # Enable coinbase (crypto) payments?
+    ApiKey: "API_KEY"
+    WebhookSecret: "WEBHOOK_SECRET"
+
+# On the coinbase commerce panel, don't forget to "Add an endpoint" and set the URL to YOURDOMAIN.com/webhooks/coinbase
+
+# ===========================================================================
+# EMAILS
+# You must not leave them as blank!
+# ===========================================================================
+EmailSettings:
+  Enabled: true # Enable sending emails from the store to users? For example payment invoices, etc..
+  fromEmail: "store@plexdevelopment.net" # The email to send email from, can be anything
+  sendGridToken: "API_KEY

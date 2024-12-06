@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staff Panel | Discount Codes</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.4/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="icon" href="<%= settings.faviconPath %>" type="image/x-icon">
+    <style>
+        :root {
+            --primary-color: #0d1117;
+            --secondary-color: <%= settings.accentColor %>;
+            --accent-color: <%= settings.accentColor %>;
+            --text-color: #c9d1d9;
+            --title-color: #ffffff;
+            --subtitle-color: #c9d1d9;
+            --sections-bg-color: #161b22;
+            --sections-subtitle-color: #ffffff;
+            --footer-bg-color: #161b22;
+            --button-discord-color: #7289da;
+            --amount-color: <%= settings.accentColor %>;
+            --position-color: #8b949e;
+            --delete-button-color: #ff6347;
+            --delete-button-hover-color: #e5533d;
+        }
+
+        html {
+            background-color: var(--primary-color);
+            color: var(--text-color);
+        }
+
+        .staff-panel {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .content {
+            flex-grow: 1;
+            padding: 20px;
+        }
+
+        .title.is-spaced {
+            color: var(--title-color);
+        }
+
+        h1.title {
+            color: var(--title-color) !important;
+        }
+
+        .subtitle {
+            color: var(--subtitle-color);
+        }
+
+        .button.is-info {
+            background-color: var(--secondary-color);
+            border-color: var(--secondary-color);
+            transition: background-color 0.3s ease;
+        }
+
+        .button.is-info:hover,
+        .button.is-info:focus {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+            box-shadow: none;
+        }
+
+        .button.is-store {
+            background-color: transparent;
+            border: 2px solid var(--text-color);
+            color: var(--text-color);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .button.is-store:hover {
+            background-color: var(--text-color);
+            color: var(--primary-color);
+        }
+
+        .code-list {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .code-list .code-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background-color: var(--sections-bg-color);
+            border-radius: 8px;
+            margin-bottom: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        .code-list .code-item:hover {
+            background-color: #2c313a;
+        }
+
+        .code-list .code-info-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .code-list .code-name {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: var(--title-color);
+        }
+
+        .code-list .code-discount {
+            font-size: 0.9rem;
+            color: var(--amount-color);
+            margin-right: 8px;
+        }
+
+        .code-list .code-uses {
+            font-size: 0.9rem;
+            color: var(--position-color);
+        }
+
+        .code-list .code-expiry {
+            font-size: 0.9rem;
+            color: var(--position-color);
+        }
+
+        .code-list .code-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .code-list .delete-button {
+            background-color: var(--delete-button-color);
+            border: none;
+            padding: 5px 10px;
+            color: var(--title-color);
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-left: 5px;
+        }
+
+        .code-list .delete-button:hover {
+            background-color: var(--delete-button-hover-color);
+        }
+    </style>
+</head>
+
+<body>
+    <%- include('../partials/navbar', { user, existingUser }) %>
+
+    <div class="staff-panel">
+        <%- include('../partials/staff-navbar', { user, currentPage: 'discount-codes' }) %>
+
+        <!-- Content -->
+        <div class="content">
+            <section class="section">
+                <div class="level">
+                    <div class="level-left">
+                        <h1 class="title">Discount Codes</h1>
+                    </div>
+                    <div class="level-right">
+                        <a href="/staff/discount-codes/create" class="button is-info">
+                            <span class="icon is-small">
+                                <i class="fas fa-plus"></i>
+                            </span>
+                            <span>Create Discount Code</span>
+                        </a>
+                    </div>
+                </div>
+                <p class="subtitle">List of all active discount codes available.</p>
+
+                <% if (codes.length === 0) { %>
+                    <p class="subtitle">No discount codes found.</p>
+                <% } else { %>
+                    <div class="code-list">
+                        <% codes.forEach(code => { %>
+                        <div class="code-item">
+                            <div class="code-info-left">
+                                <span class="code-name"><%= code.name %></span>
+                                <span class="code-discount">(<%= code.discountPercentage %>% off)</span>
+                                <span class="code-uses">Uses: <%= code.uses %>/<%= code.maxUses !== null ? code.maxUses : 'Unlimited' %></span>
+                                <span class="code-expiry">Expires: <%= code.expiresAt ? code.expiresAt.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) : 'Never' %></span>
+                            </div>
+                            <div class="code-info">
+                                <form action="/staff/discount-codes/delete/<%= code._id %>" method="POST" style="display: inline;">
+                                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                    <button type="submit" class="delete-button">Delete</button>
+                                </form>
+                            </div>
+                        </div>
+                        <% }); %>
+                    </div>
+                <% } %>
+            </section>
+        </div>
+    </div>
+
+    <%- include('../partials/footer') %>
+</body>
+
+</html>

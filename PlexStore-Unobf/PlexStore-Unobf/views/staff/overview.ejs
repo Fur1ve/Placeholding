@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staff Panel | Overview</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.4/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="icon" href="<%= settings.faviconPath %>" type="image/x-icon">
+    
+    <style>
+        :root {
+            --primary-color: #0d1117;
+            --secondary-color: <%= settings.accentColor %>;
+            --accent-color: <%= settings.accentColor %>;
+            --text-color: #c9d1d9;
+            --title-color: #ffffff;
+            --subtitle-color: #c9d1d9;
+            --sections-bg-color: #161b22;
+            --sections-subtitle-color: #ffffff;
+            --footer-bg-color: #161b22;
+            --button-discord-color: #7289da;
+            --amount-color: <%= settings.accentColor %>;
+            --positive-color: #28a745;
+            --negative-color: #dc3545;
+            --hover-bg-color: #21262d;
+        }
+
+        html {
+            background-color: var(--primary-color);
+            color: var(--text-color);
+        }
+
+        .staff-panel {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .content {
+            flex-grow: 1;
+            padding: 20px;
+        }
+
+        .hero-body {
+            padding: 2rem 1.5rem;
+        }
+
+        .card {
+            background-color: var(--sections-bg-color);
+            color: var(--text-color);
+            transition: transform 0.3s ease-in-out, background-color 0.3s;
+            height: 120px; /* Reduced height for smaller cards */
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-direction: column;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+            padding: 8px; /* Reduced padding for smaller cards */
+        }
+
+        .card-content {
+            padding: 8px; /* Ensure consistent padding */
+            text-align: center; /* Center the text */
+            width: 100%; /* Ensure content spans full width */
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Center everything vertically */
+            justify-content: center;
+            height: 100%;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            background-color: var(--hover-bg-color);
+        }
+
+        .card .hover-info {
+            display: none;
+            position: absolute;
+            bottom: 8px;
+            left: 8px;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-size: 0.75rem;
+        }
+
+        .card:hover .hover-info {
+            display: block;
+        }
+
+        .title.is-spaced {
+            color: var(--title-color);
+        }
+
+        h1.title {
+            color: var(--title-color) !important;
+        }
+
+        .subtitle {
+            color: var(--subtitle-color);
+        }
+
+        .card-content .title {
+            color: var(--title-color);
+            margin: 0;
+            line-height: 1.2; /* Ensures better spacing between lines */
+            font-size: 1rem; /* Reduced font size for titles */
+        }
+
+        .card-content .title.is-2 {
+            color: var(--amount-color);
+            font-size: 1.5rem; /* Reduced font size for values */
+            margin-top: 5px; /* Reduced margin to save space */
+        }
+
+        .percentage-change {
+            font-size: 1.2rem;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+
+        .percentage-change.positive {
+            color: var(--positive-color);
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        .percentage-change.negative {
+            color: var(--negative-color);
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        .percentage-change i {
+            margin-left: 5px;
+        }
+
+        .icon {
+            margin-right: 5px;
+        }
+
+        .toggle-button {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.toggle-checkbox {
+    display: none;
+}
+
+.toggle-label {
+    position: relative;
+    width: 60px;
+    height: 30px;
+    background-color: var(--sections-bg-color);
+    border-radius: 15px;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.toggle-inner {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: var(--hover-bg-color);
+    border-radius: 15px;
+    transition: background-color 0.3s;
+}
+
+.toggle-switch {
+    position: absolute;
+    width: 26px;
+    height: 26px;
+    background-color: var(--accent-color);
+    border-radius: 50%;
+    top: 2px;
+    left: 2px;
+    transition: transform 0.3s;
+}
+
+.toggle-checkbox:checked + .toggle-label .toggle-switch {
+    transform: translateX(30px);
+}
+
+
+.toggle-text {
+    display: flex;
+    align-items: center;
+    font-size: 1rem;
+    color: var(--text-color);
+}
+
+.toggle-text span {
+    margin: 0 5px;
+}
+
+#lifetime-text {
+    color: var(--text-color);
+    opacity: 0.6;
+}
+
+#monthly-text.toggle-active {
+    color: var(--accent-color);
+    opacity: 1;
+}
+
+#lifetime-text.toggle-active {
+    color: var(--accent-color);
+    opacity: 1;
+}
+
+#monthly-text:not(.toggle-active) {
+    color: var(--text-color);
+    opacity: 0.6;
+}
+
+    </style>
+</head>
+
+<body>
+    <%- include('../partials/navbar', { user, existingUser }) %>
+
+    <div class="staff-panel">
+        <%- include('../partials/staff-navbar', { user, currentPage: 'overview' }) %>
+
+        <div class="content">
+            <section class="section">
+
+                <h1 class="title">Overview</h1>
+                <p class="subtitle">Welcome to the staff panel overview. Here you can see statistics, recent activity, and quick links.</p>
+                
+                <!-- Toggle for Monthly vs Lifetime Stats -->
+                <div class="toggle-button">
+                    <input type="checkbox" id="toggle-stats" class="toggle-checkbox" onclick="toggleStats()" />
+                    <label for="toggle-stats" class="toggle-label">
+                        <span class="toggle-inner"></span>
+                        <span class="toggle-switch"></span>
+                    </label>
+                    <div class="toggle-text">
+                        <span id="monthly-text" class="toggle-active">Monthly Stats</span>
+                        <span id="lifetime-text">Lifetime Stats</span>
+                    </div>
+                </div>
+
+                <div class="columns is-multiline">
+                    <!-- Monthly Stats -->
+                    <div class="column is-full-mobile is-half-tablet is-one-quarter-desktop monthly-stat">
+                        <div class="card">
+                            <div class="card-content">
+                                <p class="title is-4">New Accounts (Month)</p>
+                                <p class="title is-2"><%= thisMonthStats.userJoins.toLocaleString('en-US') %></p>
+                                <div class="percentage-change <%= joinsDifference >= 0 ? 'positive' : 'negative' %>">
+                                    <%- joinsDifference >= 0 ? '<i class="fas fa-arrow-circle-up"></i>' : '<i class="fas fa-arrow-circle-down"></i>' %>
+                                </div>
+                            </div>
+                            <div class="hover-info">Last month: <%= lastMonthStats.userJoins %></div>
+                        </div>
+                    </div>
+
+                    <!-- Lifetime Stats -->
+                    <div class="column is-full-mobile is-half-tablet is-one-quarter-desktop lifetime-stat" style="display:none;">
+                        <div class="card">
+                            <div class="card-content">
+                                <p class="title is-4">New Accounts (Lifetime)</p>
+                                <p class="title is-2"><%= totalUsers.toLocaleString('en-US') %></p>
+                                <div class="percentage-change positive">
+                                    <i class="fas fa-equals"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Repeat for other stats: Sales, Revenue, etc. -->
+                    <div class="column is-full-mobile is-half-tablet is-one-quarter-desktop monthly-stat">
+                        <div class="card">
+                            <div class="card-content">
+                                <p class="title is-4">Sales (Month)</p>
+                                <p class="title is-2"><%= thisMonthStats.totalPurchases.toLocaleString('en-US') %></p>
+                                <div class="percentage-change <%= salesDifference >= 0 ? 'positive' : 'negative' %>">
+                                    <%- salesDifference >= 0 ? '<i class="fas fa-arrow-circle-up"></i>' : '<i class="fas fa-arrow-circle-down"></i>' %>
+                                </div>
+                            </div>
+                            <div class="hover-info">Last month: <%= lastMonthStats.totalPurchases %></div>
+                        </div>
+                    </div>
+
+                    <div class="column is-full-mobile is-half-tablet is-one-quarter-desktop lifetime-stat" style="display:none;">
+                        <div class="card">
+                            <div class="card-content">
+                                <p class="title is-4">Sales (Lifetime)</p>
+                                <p class="title is-2"><%= stats.totalPurchases.toLocaleString('en-US') %></p>
+                                <div class="percentage-change positive">
+                                    <i class="fas fa-equals"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="column is-full-mobile is-half-tablet is-one-quarter-desktop monthly-stat">
+                        <div class="card">
+                            <div class="card-content">
+                                <p class="title is-4">Revenue (Month)</p>
+                                <p class="title is-2"><%= settings.currencySymbol %><%= thisMonthStats.totalEarned.toFixed(2) %></p>
+                                <div class="percentage-change <%= revenueDifference >= 0 ? 'positive' : 'negative' %>">
+                                    <%- revenueDifference >= 0 ? '<i class="fas fa-arrow-circle-up"></i>' : '<i class="fas fa-arrow-circle-down"></i>' %>
+                                </div>
+                            </div>
+                            <div class="hover-info">Last month: <%= settings.currencySymbol %><%= lastMonthStats.totalEarned.toFixed(2) %></div>
+                        </div>
+                    </div>
+
+                    <div class="column is-full-mobile is-half-tablet is-one-quarter-desktop lifetime-stat" style="display:none;">
+                        <div class="card">
+                            <div class="card-content">
+                                <p class="title is-4">Total Revenue (Lifetime)</p>
+                                <p class="title is-2"><%= settings.currencySymbol %><%= stats.totalEarned.toFixed(2) %></p>
+                                <div class="percentage-change positive">
+                                    <i class="fas fa-equals"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Monthly Site Visits -->
+                    <div class="column is-full-mobile is-half-tablet is-one-quarter-desktop monthly-stat">
+                        <div class="card">
+                            <div class="card-content">
+                                <p class="title is-4">Site Visits (Month)</p>
+                                <p class="title is-2"><%= thisMonthStats.totalSiteVisits.toLocaleString('en-US') %></p>
+                                <div class="percentage-change <%= visitsDifference >= 0 ? 'positive' : 'negative' %>">
+                                    <%- visitsDifference >= 0 ? '<i class="fas fa-arrow-circle-up"></i>' : '<i class="fas fa-arrow-circle-down"></i>' %>
+                                </div>
+                            </div>
+                            <div class="hover-info">Last month: <%= lastMonthStats.totalSiteVisits %></div>
+                        </div>
+                    </div>
+
+                    <!-- Lifetime Site Visits -->
+                    <div class="column is-full-mobile is-half-tablet is-one-quarter-desktop lifetime-stat" style="display:none;">
+                        <div class="card">
+                            <div class="card-content">
+                                <p class="title is-4">Total Site Visits (Lifetime)</p>
+                                <p class="title is-2"><%= stats.totalSiteVisits.toLocaleString('en-US') %></p>
+                                <div class="percentage-change positive">
+                                    <i class="fas fa-equals"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                </div>
+
+            </section>
+        </div>
+    </div>
+
+    <%- include('../partials/footer') %>
+
+    <script>
+function toggleStats() {
+    const monthlyText = document.getElementById('monthly-text');
+    const lifetimeText = document.getElementById('lifetime-text');
+    
+    if (document.getElementById('toggle-stats').checked) {
+        monthlyText.classList.remove('toggle-active');
+        lifetimeText.classList.add('toggle-active');
+        // Show lifetime stats
+        document.querySelectorAll('.monthly-stat').forEach(el => el.style.display = 'none');
+        document.querySelectorAll('.lifetime-stat').forEach(el => el.style.display = 'block');
+    } else {
+        lifetimeText.classList.remove('toggle-active');
+        monthlyText.classList.add('toggle-active');
+        // Show monthly stats
+        document.querySelectorAll('.monthly-stat').forEach(el => el.style.display = 'block');
+        document.querySelectorAll('.lifetime-stat').forEach(el => el.style.display = 'none');
+    }
+}
+    </script>
+</body>
+
+</html>

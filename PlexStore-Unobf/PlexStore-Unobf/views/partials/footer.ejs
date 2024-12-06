@@ -1,0 +1,83 @@
+<style>
+    .footer {
+        background-color: #0d1117;
+        color: #c9d1d9;
+        padding: 2rem 1.5rem;
+        font-size: 0.9rem;
+        border-top: 2px solid <%= settings.accentColor %>;
+    }
+    
+    .footer .footer-content {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    
+    .footer-link {
+        color: #c9d1d9;
+        text-decoration: none;
+        margin: 0 0.5rem;
+        transition: color 0.3s ease;
+    }
+    
+    .footer-link:hover {
+        color: <%= settings.accentColor %>;
+    }
+    
+    .has-text-blue {
+        color: <%= settings.accentColor %>;
+        font-weight: bold;
+    }
+
+    .footer p {
+        margin-bottom: 0.5rem;
+    }
+
+    .payment-icons {
+        margin-top: 1rem;
+    }
+
+    .payment-icons i {
+        font-size: 1.5rem;
+        margin: 0 0.5rem;
+        color: #c9d1d9;
+        transition: color 0.3s ease;
+    }
+
+    .payment-icons i:hover {
+        color: <%= settings.accentColor %>;
+    }
+
+    </style>
+    
+    <footer id="contact" class="footer">
+        <div class="footer-content has-text-centered">
+            <p class="has-text-light">
+                &copy; <span id="currentYear"></span> <span class="has-text-blue"> <%= settings.storeName %></span>.
+            </p>
+            <p>
+                <a href="/privacy-policy" class="footer-link">Privacy Policy</a> |
+                <a href="/tos" class="footer-link">Terms of Service</a>
+                <% if (settings.customFooterTabs && settings.customFooterTabs.length > 0) { %>
+                    <% settings.customFooterTabs.forEach(function(tab, index) { %>
+                        | <a href="<%= tab.link %>" class="footer-link"><%= tab.name %></a>
+                    <% }); %>
+                <% } %>
+            </p>
+            <div class="payment-icons">
+                <% if (config.Payments.PayPal.Enabled) { %>
+                    <i class="fab fa-cc-paypal"></i>
+                <% } %>
+                <% if (config.Payments.Stripe.Enabled) { %>
+                    <i class="fab fa-cc-stripe"></i>
+                <% } %>
+                <% if (config.Payments.Coinbase.Enabled) { %>
+                    <i class="fab fa-btc"></i>
+                <% } %>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+    </script>
+    

@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products - <%= settings.storeName %></title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.4/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="icon" href="<%= settings.faviconPath %>" type="image/x-icon">
+
+    <meta property="og:title" content="Products | <%= settings.storeName %>" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="<%= settings.baseURL %>" />
+    <meta property="og:image" content="<%= settings.logoPath %>" />
+    <meta property="og:description" content="Browse our diverse range of high-quality, easy-to-use products tailored to enhance your experience." />
+    <meta name="theme-color" content="<%= settings.accentColor %>">
+    <meta property="og:site_name" content="<%= settings.storeName %>" />
+    <meta property="og:locale" content="en_US" />
+
+    <style>
+        :root {
+            --primary-color: #0d1117;
+            --secondary-color: <%= settings.accentColor %>;
+            --accent-color: <%= settings.accentColor %>;
+            --text-color: #c9d1d9;
+            --title-color: #ffffff;
+            --subtitle-color: #8b949e;
+            --sections-bg-color: #161b22;
+            --sections-subtitle-color: #768390;
+            --footer-bg-color: #161b22;
+            --button-discord-color: #7289da;
+            --price-color: <%= settings.accentColor %>;
+        }
+
+        html {
+            background-color: var(--primary-color);
+            color: var(--text-color);
+        }
+
+        .hero.is-medium {
+            position: relative;
+            background: url('<%= settings.backgroundImagePath %>') no-repeat center center fixed;
+            background-size: cover;
+            z-index: 1;
+            min-height: 80vh;
+        }
+
+        .hero-body {
+            padding-top: 2rem !important;
+            padding-bottom: 2rem !important;
+            position: relative;
+            align-items: center;
+            display: flex;
+            z-index: 2;
+        }
+
+        .hero.is-medium {
+            min-height: 40vh;
+        }
+
+        .hero-body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: -1;
+            filter: blur(3px);
+        }
+
+        .title.is-spaced {
+            color: var(--title-color);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .subtitle {
+            color: var(--subtitle-color);
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.5;
+        }
+
+        .button.is-info {
+            background-color: var(--secondary-color);
+            border-color: var(--secondary-color);
+        }
+
+        .button.is-info:hover,
+        .button.is-info:focus {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+            box-shadow: none;
+        }
+
+        .button.is-store {
+            background-color: transparent;
+            border: 2px solid var(--text-color);
+            color: var(--text-color);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .button.is-store:hover {
+            background-color: var(--text-color);
+            color: var(--primary-color);
+        }
+
+        .section {
+            min-height: 60vh;
+        }
+
+        .section-title {
+            color: var(--title-color);
+            position: relative;
+        }
+
+        .section-title-underline::after {
+            content: '';
+            display: block;
+            width: 50px;
+            height: 4px;
+            background-color: var(--accent-color);
+            margin: 10px auto 0;
+        }
+
+        .product-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.product-card {
+    background-color: var(--sections-bg-color);
+    border-radius: 12px;
+    padding: 25px;
+    width: 320px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.product-card:hover {
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    border: 2px solid var(--accent-color);
+}
+
+.product-card .product-banner {
+    position: relative;
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    padding: 0;
+}
+
+.product-card img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+    background-color: transparent;
+}
+
+.product-card .product-info {
+    padding: 10px 0;
+}
+
+.product-card .product-name {
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: var(--title-color);
+    margin-bottom: 10px;
+}
+
+.product-card .product-description {
+    font-size: 1rem;
+    color: var(--subtitle-color);
+    margin-bottom: 20px;
+}
+
+.product-card .product-price {
+    font-size: 1.1rem;
+    color: var(--primary-color);
+    margin-bottom: 15px;
+    font-weight: bold;
+    padding: 5px 12px;
+    background-color: var(--price-color);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    display: inline-block;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.buttons.is-centered {
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.product-card .product-badge {
+    background-color: var(--accent-color);
+    color: var(--primary-color);
+    padding: 7px 12px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    border-radius: 3px;
+    z-index: 1;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.search-bar {
+    width: 60%;
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: var(--sections-bg-color);
+    color: var(--text-color);
+    border: 1px solid var(--accent-color) !important;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.search-bar::placeholder {
+    color: #a9a9a9;
+    opacity: 1;
+}
+
+.categories-list {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.categories-list .button.is-store {
+    background-color: var(--sections-bg-color);
+    color: var(--text-color);
+    border: 1px solid var(--accent-color);
+    border-radius: 8px;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+    padding: 10px 15px;
+}
+
+.categories-list .button.is-store:hover {
+    background-color: var(--accent-color);
+    color: var(--primary-color);
+}
+
+.product-card.on-sale {
+    border: 2px solid var(--accent-color);
+    position: relative;
+}
+
+.product-card.on-sale .product-badge-sale {
+    background-color: var(--accent-color);
+    color: var(--primary-color);
+    padding: 7px 12px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    border-radius: 3px;
+    z-index: 1;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    text-transform: uppercase;
+}
+
+    </style>
+
+</head>
+<body>
+    <%- include('partials/navbar', { user, existingUser }) %>
+
+        <section class="hero is-medium is-fullheight-with-navbar">
+            <div class="hero-body">
+                <div class="container has-text-centered">
+                    <div class="content-wrapper">
+                    <h1 class="title is-spaced">
+                        <%= settings.productsPageTitle %>
+                    </h1>
+                    <h2 class="subtitle">
+                        <%= settings.productsPageSubtitle %>
+                    </h2>
+
+                    <div class="field" style="margin-top: 20px;">
+                        <div class="control">
+                            <input type="text" id="productSearch" class="input is-medium is-info search-bar" placeholder="Search products by name">
+                        </div>
+                    </div>
+                </div>
+
+                    <% if (settings.productCategories && settings.productCategories.length > 0) { %>
+                        <div class="categories-list">
+                          <% settings.productCategories.forEach(category => { %>
+                            <a href="/products/category/<%= category.url %>" class="button is-store">
+                              <%= category.name %>
+                            </a>
+                          <% }); %>
+                        </div>
+                      <% } %>
+
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <% if (products.length === 0) { %>
+                    <div class="has-text-centered">
+                        <p class="title is-4" style="color: var(--title-color);">No products found.</p>
+                        <p class="subtitle" style="color: var(--subtitle-color);">Please check back later or explore other categories.</p>
+                    </div>
+                <% } else { %>
+                    <div class="product-list" id="productList">
+                        <% products.forEach(product => { %>
+                        <div class="product-card <%= product.onSale ? 'on-sale' : '' %>" data-name="<%= product.name.toLowerCase() %>">
+                            <% if (product.onSale) { %>
+                                <div class="product-badge-sale">On Sale</div>
+                            <% } %>
+                            <div class="product-banner">
+                                <img src="/<%= product.bannerImage %>" alt="<%= product.name %> Banner">
+                            </div>
+                            <div class="product-info">
+                                <p class="product-name"><%= product.name %></p>
+                                <% if (product.productType === 'digitalFree' || product.pauseSelling) { %>
+                                    <% if (product.productType === 'digitalFree') { %>
+                                        <p class="product-price">Free</p>
+                                    <% } else if (product.pauseSelling) { %>
+                                        <p class="product-price"><%= settings.currencySymbol %><%= product.price.toFixed(2) %></p>
+                                    <% } %>
+                                    <div class="buttons is-centered">
+                                        <a href="/products/<%= product.urlId %>" class="button is-info">View Item</a>
+                                    </div>
+                                <% } else { %>
+                                    <p class="product-price"><%= settings.currencySymbol %><%= product.price.toFixed(2) %></p>
+                                    <div class="buttons is-centered">
+                                        <a href="/products/<%= product.urlId %>" class="button is-info">View Item</a>
+                                        <form action="/cart/add/<%= product._id %>" method="POST">
+                                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                            <button type="submit" class="button is-success">
+                                                <span class="icon"><i class="fas fa-cart-plus"></i></span>
+                                                <span>Add to Cart</span>
+                                            </button>
+                                        </form>
+                                    </div>
+                                <% } %>
+                            </div>
+                        </div>
+                        <% }); %>
+                    </div>
+                <% } %>
+            </div>
+        </section>
+        
+        
+    
+    <%- include('partials/footer') %>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const productSearch = document.getElementById('productSearch');
+            const productList = document.getElementById('productList');
+            const products = productList.getElementsByClassName('product-card');
+    
+            productSearch.addEventListener('input', function() {
+                const filter = productSearch.value.toLowerCase();
+    
+                for (let i = 0; i < products.length; i++) {
+                    const productName = products[i].getAttribute('data-name');
+                    if (productName.includes(filter)) {
+                        products[i].style.display = '';
+                    } else {
+                        products[i].style.display = 'none';
+                    }
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
